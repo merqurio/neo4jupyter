@@ -1,6 +1,6 @@
 # neo4jupyter
 
-This is a tool to visualize graph database queries from Neo4j in the Jupyter Notebook.
+A tool to visualize graph database queries from Neo4j in the Jupyter Notebook.
 
 #### Install
 `pip install neo4jupyter`
@@ -10,9 +10,16 @@ This is a tool to visualize graph database queries from Neo4j in the Jupyter Not
 
 #### Docs
 
+First thing you must do is call the `neo4jupyter.init_notebook_mode()` to load all the javascript.
+
 ```python
 import neo4jupyter
 neo4jupyter.init_notebook_mode()
+```
+
+Drawing a graph it's as easy as giving the funcion `neo4jupyter.draw()` the [py2neo](http://py2neo.org/v3/) graph object and the parameters that you want to be displayed. An example of the settings for the [movie graph tutorial](https://neo4j.com/developer/example-project/), `options = {"Movie": "title", "Person": "name"}` will show the nodes `Person` and `Movie` by title and name consecutively and their connexions.
+
+```python
 neo4jupyter.draw(graph_object_py2neo, {"Nodes_type": "Att", …})
 ```
 
