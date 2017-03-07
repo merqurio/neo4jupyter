@@ -11,6 +11,7 @@ setup(
     packages=['neo4jupyter'],
     package_dir={'neo4jupyter': '.'},
     data_files=[('assets', ['assets/index.html'])],
+    include_package_data=True,
     description='A neo4j visualizer for Jupyter',
     long_description='To be done',
     install_requires=[
