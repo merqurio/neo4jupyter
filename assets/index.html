@@ -1,56 +1,46 @@
-<!DOCTYPE html>
-<html lang="en">
-    <head>
-        <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/vis/4.16.0/vis.js"></script>
-        <link href="http://cdnjs.cloudflare.com/ajax/libs/vis/4.16.0/vis.css" rel="stylesheet" type="text/css">
-    </head>
-    <body>
+<div id="{id}" style="height: 400px;"></div>
 
-        <div id="{id}" style="height: 400px;"></div>
+<script type="text/javascript">
 
-        <script type="text/javascript">
+    var nodes = {nodes};
+    var edges = {edges};
 
-            var nodes = {nodes};
-            var edges = {edges};
+    var container = document.getElementById("{id}");
 
-            var container = document.getElementById("{id}");
+    var data = {{
+        nodes: nodes,
+        edges: edges
+    }};
 
-            var data = {{
-                nodes: nodes,
-                edges: edges
-            }};
+    var options = {{
+    nodes: {{
+        shape: 'dot',
+        size: 25,
+        font: {{
+            size: 14
+        }}
+    }},
+    edges: {{
+        font: {{
+            size: 14,
+            align: 'middle'
+        }},
+        color: 'gray',
+        arrows: {{
+            to: {{
+                enabled: true,
+                scaleFactor: 0.5
+            }}
+        }},
+        smooth: {{
+            enabled: false
+        }}
+    }},
+    physics: {{
+        enabled: {physics}
+        }}
+    }};
 
-            var options = {{
-            nodes: {{
-                shape: 'dot',
-                size: 25,
-                font: {{
-                    size: 14
-                }}
-            }},
-            edges: {{
-                font: {{
-                    size: 14,
-                    align: 'middle'
-                }},
-                color: 'gray',
-                arrows: {{
-                    to: {{
-                        enabled: true,
-                        scaleFactor: 0.5
-                    }}
-                }},
-                smooth: {{
-                    enabled: false
-                }}
-            }},
-            physics: {{
-                enabled: {physics}
-                }}
-            }};
+    var network = new vis.Network(container, data, options);
 
-            var network = new vis.Network(container, data, options);
-
-        </script>
-    </body>
-</html>
+</script>
