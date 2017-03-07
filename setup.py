@@ -1,4 +1,4 @@
-from setuptools import setup, find_packages
+from setuptools import setup
 
 setup(
     name='neo4jupyter',
@@ -10,7 +10,7 @@ setup(
     author_email='gabriel.maeztu@gmail.com',
     packages=['neo4jupyter'],
     package_dir={'neo4jupyter': '.'},
-    data_files=[('assets', ['assets/index.html'])],
+    data_files=[('neo4jupyter', ['assets/index.html'])],
     include_package_data=True,
     description='A neo4j visualizer for Jupyter',
     long_description='To be done',
