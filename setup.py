@@ -10,7 +10,7 @@ setup(
     author_email='gabriel.maeztu@gmail.com',
     packages=['neo4jupyter'],
     package_dir={'neo4jupyter': '.'},
-    package_data=[('neo4jupyter', ['assets/*.html'])],
+    package_data={'neo4jupyter': ['assets/*.html']},
     include_package_data=True,
     description='A neo4j visualizer for Jupyter',
     long_description='To be done',
