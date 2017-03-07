@@ -8,10 +8,11 @@ setup(
     license='MIT',
     author='Gabriel de Maeztu',
     author_email='gabriel.maeztu@gmail.com',
-    package=['neo4jupyter'],
+    packages=['neo4jupyter'],
+    package_dir={'neo4jupyter': '.'},
+    data_files=[('assets', ['assets/index.html'])],
     description='A neo4j visualizer for Jupyter',
     long_description='To be done',
-    packages=find_packages(exclude=['docs', 'build', 'test*', '*.egg-info']),
     install_requires=[
         'IPython >= 4.0.0',
         'ipython-cypher >= 0.2.4',
