@@ -25,4 +25,4 @@ neo4jupyter.draw(graph_object_py2neo, {"Nodes_type": "Att", …})
 
 #### Licence
 The MIT License (MIT) | See LICENSE.md
-Copyright (c) 2015, 2016 Gabi de Maeztu
+Copyright (c) 2015, 2016, 2017 Gabriel de Maeztu, Marcus Rehm
