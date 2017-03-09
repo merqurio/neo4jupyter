@@ -2,7 +2,7 @@ import os
 import json
 import uuid
 import tempfile
-from IPython.display import HTML, display
+from IPython.display import HTML, Javascript, display
 
 DEFAULT_PHYSICS = {
     "physics": {
@@ -24,12 +24,18 @@ def init_notebook_mode():
     """
     Creates a script tag and prints the JS read from the file in the tag.
     """
-    display(
-        HTML("<script type='text/javascript'> define('vis', function(require, exports, module) {" +
-             open(os.path.join(os.path.dirname(__file__), 'assets/vis.min.js')).read() +
-             "}); require(['vis'], function(vis) { window.vis = vis; }); </script>")
-        )
 
+    display(
+        Javascript(data="require.config({ " +
+                        "    paths: { " +
+                        "        vis: '//cdnjs.cloudflare.com/ajax/libs/vis/4.8.2/vis.min' " +
+                        "    } " +
+                        "}); " +
+                        "require(['vis'], function(vis) { " +
+                        " window.vis = vis; " +
+                        "}); ",
+                   css='https://cdnjs.cloudflare.com/ajax/libs/vis/4.8.2/vis.css')
+        )
 
 def vis_network(nodes, edges, physics=True):
     """
@@ -43,12 +49,6 @@ def vis_network(nodes, edges, physics=True):
 
     unique_id = str(uuid.uuid4())
     html = base.format(id=unique_id, nodes=json.dumps(nodes), edges=json.dumps(edges), physics=json.dumps(physics))
-
-    # Stores the HTML to show at /tmp folder
-    filename = os.path.join(tempfile.gettempdir(), "graph-{}.html".format(unique_id))
-
-    with open(filename, "w") as final_file:
-        final_file.write(html)
 
     return HTML(html)
 
@@ -68,47 +68,48 @@ def draw(graph, options, physics=True, limit=100):
     """
 
     query = """
-        MATCH n
-        WITH n, RAND() AS random
-        ORDER BY random LIMIT {limit}
-        OPTIONAL MATCH (n)-[r]->(m)
-        RETURN n, r, m
+    MATCH (n)
+    WITH n, rand() AS random
+    ORDER BY random
+    LIMIT {limit}
+    OPTIONAL MATCH (n)-[r]->(m)
+    RETURN n AS source_node,
+           id(n) AS source_id,
+           r,
+           m AS target_node,
+           id(m) AS target_id
     """
 
-    data = graph.cypher.execute(query, limit=limit)
+    data = graph.run(query, limit=limit)
 
     nodes = []
     edges = []
 
-    def get_vis_info(node):
-        node_label = list(node.labels)[0]
+    def get_vis_info(node, id):
+        node_label = list(node.labels())[0]
         prop_key = options.get(node_label)
         vis_label = node.properties.get(prop_key, "")
-        vis_id = node.ref.split("/")[1]
 
-        title = {}
-
-        for key, value in node.properties.items():
-            title[key] = value
-
-        return {"id": vis_id, "label": vis_label, "group": node_label, "title": repr(title)}
+        return {"id": id, "label": vis_label, "group": node_label, "title": repr(node.properties)}
 
     for row in data:
-        source = row[0]
-        rel = row[1]
-        target = row[2]
+        source_node = row[0]
+        source_id = row[1]
+        rel = row[2]
+        target_node = row[3]
+        target_id = row[4]
 
-        source_info = get_vis_info(source)
+        source_info = get_vis_info(source_node, source_id)
 
         if source_info not in nodes:
             nodes.append(source_info)
 
-        if rel:
-            target_info = get_vis_info(target)
+        if rel is not None:
+            target_info = get_vis_info(target_node, target_id)
 
             if target_info not in nodes:
                 nodes.append(target_info)
 
-            edges.append({"from": source_info["id"], "to": target_info["id"], "label": rel.type})
+            edges.append({"from": source_info["id"], "to": target_info["id"], "label": rel.type()})
 
     return vis_network(nodes, edges, physics=physics)

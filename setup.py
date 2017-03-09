@@ -1,4 +1,4 @@
-from setuptools import setup, find_packages
+from setuptools import setup
 
 setup(
     name='neo4jupyter',
@@ -8,12 +8,15 @@ setup(
     license='MIT',
     author='Gabriel de Maeztu',
     author_email='gabriel.maeztu@gmail.com',
-    scripts=['neo4jupyter.py'],
+    packages=['neo4jupyter'],
+    package_dir={'neo4jupyter': '.'},
+    package_data={'neo4jupyter': ['assets/*.html']},
+    include_package_data=True,
     description='A neo4j visualizer for Jupyter',
     long_description='To be done',
-    packages=find_packages(exclude=['docs', 'build', 'test*', '*.egg-info']),
     install_requires=[
         'IPython >= 4.0.0',
+        'ipython-cypher >= 0.2.4',
         'py2neo'
     ],
     classifiers=[
