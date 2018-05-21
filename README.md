@@ -23,6 +23,8 @@ Drawing a graph it's as easy as giving the funcion `neo4jupyter.draw()` the [py2
 neo4jupyter.draw(graph_object_py2neo, {"Nodes_type": "Att", …})
 ```
 
+I encourage you to read the [neo4jupyter.py](https://github.com/merqurio/neo4jupyter/blob/master/neo4jupyter.py) file, is small and subject to be enhanced.
+
 #### Licence
 The MIT License (MIT) | See LICENSE.md
-Copyright (c) 2015, 2016, 2017 Gabriel de Maeztu, Marcus Rehm
+Copyright (c) 2015, 2016, 2017, 2018 Gabriel de Maeztu, Marcus Rehm, Bruce Lowther
