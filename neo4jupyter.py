@@ -113,3 +113,30 @@ def draw(graph, options, physics=True, limit=100):
             edges.append({"from": source_info["id"], "to": target_info["id"], "label": rel.type()})
 
     return vis_network(nodes, edges, physics=physics)
+
+def get_vis_edge_info(r):
+    return({"from": id(r.start_node()), "to": id(r.end_node()), "label": r.type()})
+
+##calculate the dict that will represent a node.
+def get_vis_node_info(node, options):
+    node_label = next(iter(node.labels()),"")
+    prop_key = options.get(node_label)
+    vis_label = node.get(prop_key, "")
+    
+    return {"id": id(node), "label": vis_label, "group": node_label, "title": repr(node)}
+
+def draw_subgraph(subgraph, options, physics=True, limit=100):
+    """
+    The options argument should be a dictionary of node labels and property keys; it determines which property
+    is displayed for the node label. For example, in the movie graph, options = {"Movie": "title", "Person": "name"}.
+    Omitting a node label from the options dict will leave the node unlabeled in the visualization.
+    Setting physics = True makes the nodes bounce around when you touch them!
+    :param subgraph: Subgaph containing nodes and relationships to plot.
+    :param options: Options for the Nodes.
+    :param physics: Physics of the vis.js visualization.
+    :return: IPython.display.HTML
+    """
+
+    nodes = [get_vis_node_info(n,options) for n in subgraph.nodes()]
+    edges = [get_vis_edge_info(r) for r in subgraph.relationships()]
+    return vis_network(nodes, edges, physics=physics)
