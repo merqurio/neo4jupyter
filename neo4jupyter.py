@@ -86,11 +86,11 @@ def draw(graph, options, physics=True, limit=100):
     edges = []
 
     def get_vis_info(node, id):
-        node_label = list(node.labels())[0]
+        node_label = list(node.labels)[0]
         prop_key = options.get(node_label)
-        vis_label = node.properties.get(prop_key, "")
+        vis_label = node.get(prop_key, "")
 
-        return {"id": id, "label": vis_label, "group": node_label, "title": repr(node.properties)}
+        return {"id": id, "label": vis_label, "group": node_label, "title": repr(node)}
 
     for row in data:
         source_node = row[0]
