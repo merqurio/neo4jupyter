@@ -110,7 +110,7 @@ def draw(graph, options, physics=True, limit=100):
             if target_info not in nodes:
                 nodes.append(target_info)
 
-            edges.append({"from": source_info["id"], "to": target_info["id"], "label": rel.type()})
+            edges.append({"from": source_info["id"], "to": target_info["id"], "label": rel.__class__.__name__})
 
     return vis_network(nodes, edges, physics=physics)
 
