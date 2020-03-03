@@ -119,9 +119,9 @@ def get_vis_edge_info(r):
 
 ##calculate the dict that will represent a node.
 def get_vis_node_info(node, options):
-    node_label = next(iter(node.labels()),"")
+    node_label = list(node.labels)[0]
     prop_key = options.get(node_label)
-    vis_label = node.get(prop_key, "")
+    vis_label = dict(node).get(prop_key, "")
     
     return {"id": id(node), "label": vis_label, "group": node_label, "title": repr(node)}
 
