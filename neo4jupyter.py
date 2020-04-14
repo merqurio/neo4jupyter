@@ -86,11 +86,11 @@ def draw(graph, options, physics=True, limit=100):
     edges = []
 
     def get_vis_info(node, id):
-        node_label = list(node.labels())[0]
+        node_label = list(node.labels)[0]
         prop_key = options.get(node_label)
-        vis_label = node.properties.get(prop_key, "")
+        vis_label = node.get(prop_key, "")
 
-        return {"id": id, "label": vis_label, "group": node_label, "title": repr(node.properties)}
+        return {"id": id, "label": vis_label, "group": node_label, "title": repr(node)}
 
     for row in data:
         source_node = row[0]
@@ -110,18 +110,18 @@ def draw(graph, options, physics=True, limit=100):
             if target_info not in nodes:
                 nodes.append(target_info)
 
-            edges.append({"from": source_info["id"], "to": target_info["id"], "label": rel.type()})
+            edges.append({"from": source_info["id"], "to": target_info["id"], "label": rel.__class__.__name__})
 
     return vis_network(nodes, edges, physics=physics)
 
 def get_vis_edge_info(r):
-    return({"from": id(r.start_node()), "to": id(r.end_node()), "label": r.type()})
+    return({"from": id(r.start_node), "to": id(r.end_node), "label": r.__class__.__name__ })
 
 ##calculate the dict that will represent a node.
 def get_vis_node_info(node, options):
-    node_label = next(iter(node.labels()),"")
+    node_label = list(node.labels)[0]
     prop_key = options.get(node_label)
-    vis_label = node.get(prop_key, "")
+    vis_label = dict(node).get(prop_key, "")
     
     return {"id": id(node), "label": vis_label, "group": node_label, "title": repr(node)}
 
@@ -137,6 +137,6 @@ def draw_subgraph(subgraph, options, physics=True, limit=100):
     :return: IPython.display.HTML
     """
 
-    nodes = [get_vis_node_info(n,options) for n in subgraph.nodes()]
-    edges = [get_vis_edge_info(r) for r in subgraph.relationships()]
+    nodes = [get_vis_node_info(n,options) for n in subgraph.nodes]
+    edges = [get_vis_edge_info(r) for r in subgraph.relationships]
     return vis_network(nodes, edges, physics=physics)
