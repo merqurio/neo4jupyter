@@ -115,7 +115,7 @@ def draw(graph, options, physics=True, limit=100):
     return vis_network(nodes, edges, physics=physics)
 
 def get_vis_edge_info(r):
-    return({"from": id(r.start_node()), "to": id(r.end_node()), "label": r.type()})
+    return({"from": id(r.start_node), "to": id(r.end_node), "label": r.__class__.__name__ })
 
 ##calculate the dict that will represent a node.
 def get_vis_node_info(node, options):
@@ -137,6 +137,6 @@ def draw_subgraph(subgraph, options, physics=True, limit=100):
     :return: IPython.display.HTML
     """
 
-    nodes = [get_vis_node_info(n,options) for n in subgraph.nodes()]
-    edges = [get_vis_edge_info(r) for r in subgraph.relationships()]
+    nodes = [get_vis_node_info(n,options) for n in subgraph.nodes]
+    edges = [get_vis_edge_info(r) for r in subgraph.relationships]
     return vis_network(nodes, edges, physics=physics)
