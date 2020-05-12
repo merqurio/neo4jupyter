@@ -2,7 +2,7 @@ from setuptools import setup
 
 setup(
     name='neo4jupyter',
-    version='0.1.3',
+    version='0.2.0',
     keywords='jupyter neo4j graphdb',
     url='https://github.com/merqurio/neo4jupyter',
     license='MIT',
