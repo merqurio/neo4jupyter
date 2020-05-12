@@ -71,7 +71,7 @@ def draw(graph, options, physics=True, limit=100):
     MATCH (n)
     WITH n, rand() AS random
     ORDER BY random
-    LIMIT {limit}
+    LIMIT $limit
     OPTIONAL MATCH (n)-[r]->(m)
     RETURN n AS source_node,
            id(n) AS source_id,
